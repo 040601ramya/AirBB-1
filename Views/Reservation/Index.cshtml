@@ -1,0 +1,48 @@
+@model IEnumerable<AirBB.Models.ViewModels.ReservationViewModel>
+
+@{
+    ViewData["Title"] = "Your Reservations";
+}
+
+<h2>Your Reservations</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">You have no reservations.</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Residence</th>
+                <th>Location</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.ResidenceName</td>
+                <td>@r.LocationName</td>
+                <td>@r.ReservationStartDate.ToShortDateString()</td>
+                <td>@r.ReservationEndDate.ToShortDateString()</td>
+                <td>@string.Format(System.Globalization.CultureInfo.GetCultureInfo("en-US"), "{0:C}", r.TotalPrice)</td>
+                <td>
+                    <form asp-action="Cancel" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@r.ReservationId" />
+                        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>

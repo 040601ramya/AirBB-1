@@ -1,0 +1,85 @@
+﻿@model AirBB.Models.ViewModels.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h2>Welcome to AirBB</h2>
+
+<form asp-action="Filter" method="post" class="mb-3">
+    @Html.AntiForgeryToken()
+    <label>Where:</label>
+    <select asp-for="SelectedLocationId" asp-items="@(new SelectList(Model.Locations, "LocationId", "Name"))">
+        <option value="0">All</option>
+    </select>
+
+    <label>When:</label>
+    <input id="daterange" type="text" class="form-control d-inline-block" style="max-width:260px" autocomplete="off" />
+    <input type="hidden" asp-for="StartDate" />
+    <input type="hidden" asp-for="EndDate" />
+
+    <label>Who:</label>
+    <input asp-for="GuestCount" type="number" min="1" />
+
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<hr />
+
+<div class="row">
+    @foreach (var res in Model.Residences!)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img src="~/images/@res.ResidencePicture" class="card-img-top" />
+                <div class="card-body">
+                    <h5>@res.Name</h5>
+                    <p>@res.Location?.Name</p>
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@res.ResidenceId" class="btn btn-info me-2">Details</a>
+                    <form asp-controller="Reservation" asp-action="Reserve" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="residenceId" value="@res.ResidenceId" />
+                        <input type="hidden" name="startDate" value="@(Model.StartDate?.ToString("yyyy-MM-dd") ?? "")" />
+                        <input type="hidden" name="endDate" value="@(Model.EndDate?.ToString("yyyy-MM-dd") ?? "")" />
+                        <button type="submit" class="btn btn-success">Reserve</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+        $(function () {
+            var s = '@(Model.StartDate?.ToString("MM/dd/yyyy") ?? "")';
+            var e = '@(Model.EndDate?.ToString("MM/dd/yyyy") ?? "")';
+            if (s && e) $('#daterange').val(s + ' - ' + e);
+
+            $('#daterange').daterangepicker({
+                autoUpdateInput: false,
+                locale: { cancelLabel: 'Clear' }
+            });
+
+            $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                $('input[name="StartDate"]').val(picker.startDate.format('YYYY-MM-DD'));
+                $('input[name="EndDate"]').val(picker.endDate.format('YYYY-MM-DD'));
+                $('input[name="startDate"]').val(picker.startDate.format('YYYY-MM-DD'));
+                $('input[name="endDate"]').val(picker.endDate.format('YYYY-MM-DD'));
+            });
+
+            $('#daterange').on('cancel.daterangepicker', function () {
+                $(this).val('');
+                $('input[name="StartDate"]').val('');
+                $('input[name="EndDate"]').val('');
+                $('input[name="startDate"]').val('');
+                $('input[name="endDate"]').val('');
+            });
+        });
+    </script>
+}

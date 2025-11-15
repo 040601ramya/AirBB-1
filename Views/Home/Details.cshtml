@@ -1,0 +1,80 @@
+@model AirBB.Models.ViewModels.DetailViewModel
+
+@{
+    ViewData["Title"] = "Residence Detail";
+}
+
+<div class="card">
+    <img src="~/images/@Model.Residence.ResidencePicture" class="card-img-top" alt="@Model.Residence.Name" />
+    <div class="card-body">
+        <h4>@Model.Residence.Name</h4>
+        <p>@Model.Residence.Location?.Name</p>
+        <p>Guests: @Model.Residence.GuestNumber • Bedrooms: @Model.Residence.BedroomNumber • Bathrooms: @Model.Residence.BathroomNumber</p>
+        <p>Price/Night: @Model.Residence.PricePerNight</p>
+
+        <form asp-controller="Reservation" asp-action="Reserve" method="post" class="row g-2">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="residenceId" value="@Model.Residence.ResidenceId" />
+            <div class="col-sm-4">
+                <label class="form-label">Start</label>
+                <select id="startDate" name="startDate" class="form-select" required>
+                    <option value="">Select</option>
+                    @foreach (var d in Model.StartDateOptions)
+                    {
+                        <option value="@d.ToString("yyyy-MM-dd")">@d.ToString("MM/dd/yyyy")</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">End</label>
+                <select id="endDate" name="endDate" class="form-select" required disabled>
+                    <option value="">Select</option>
+                    @foreach (var d in Model.EndDateOptions)
+                    {
+                        <option value="@d.ToString("yyyy-MM-dd")">@d.ToString("MM/dd/yyyy")</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-success w-100">Reserve</button>
+            </div>
+        </form>
+
+        <a asp-action="Index" class="btn btn-secondary mt-3">Back to Home</a>
+    </div>
+</div>
+
+@section Scripts {
+@{
+    var list = new System.Collections.Generic.List<object>();
+    foreach (var d in Model.EndDateOptions)
+    {
+        list.Add(new { iso = d.ToString("yyyy-MM-dd"), label = d.ToString("MM/dd/yyyy") });
+    }
+    var endDatesJson = System.Text.Json.JsonSerializer.Serialize(list);
+}
+<script>
+(function(){
+    const startSel = document.getElementById('startDate');
+    const endSel   = document.getElementById('endDate');
+
+    function isoToDate(v){ const [y,m,d]=v.split('-').map(Number); return new Date(y, m-1, d); }
+    function clearEnd(){ while (endSel.options.length > 1) endSel.remove(1); }
+
+    const all = @Html.Raw(endDatesJson);
+
+    function repopulateEnd(minIso){
+        clearEnd();
+        const min = isoToDate(minIso);
+        all.filter(x => isoToDate(x.iso) > min)
+           .forEach(x => endSel.add(new Option(x.label, x.iso)));
+        endSel.disabled = false;
+    }
+
+    startSel.addEventListener('change', function(){
+        if (!this.value) { clearEnd(); endSel.disabled = true; return; }
+        repopulateEnd(this.value);
+    });
+})();
+</script>
+}

@@ -1,0 +1,51 @@
+@{
+    Layout = "_Layout";
+}
+
+<!-- Client Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">AirBB</a>
+
+        <!-- Toggler button for mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarClient" aria-controls="navbarClient" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="navbarClient">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Residence" asp-action="List">Homes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Experience" asp-action="List">Experiences</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Service" asp-action="List">Services</a>
+                </li>
+            </ul>
+
+            <!-- Right-side link to Admin area -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main content -->
+<div class="container mt-4">
+    @RenderBody()
+</div>
+
+<!-- Footer -->
+<footer class="bg-light text-center py-3 mt-4">
+    <a asp-controller="Home" asp-action="Support">Support</a> |
+    <a asp-controller="Home" asp-action="CancellationPolicy">Cancellation Policy</a> |
+    <a asp-controller="Home" asp-action="Terms">Terms & Condition</a> |
+    <a asp-controller="Home" asp-action="CookiePolicies">Cookie Policies</a>
+</footer>

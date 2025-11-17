@@ -1,32 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\HARSHAVARDAN BADRI\\Downloads\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj": {}
+    "C:\\Users\\ramya\\Downloads\\AirBB 2 (3) (2)\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj": {}
   },
   "projects": {
-    "C:\\Users\\HARSHAVARDAN BADRI\\Downloads\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj": {
+    "C:\\Users\\ramya\\Downloads\\AirBB 2 (3) (2)\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\HARSHAVARDAN BADRI\\Downloads\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj",
+        "projectUniqueName": "C:\\Users\\ramya\\Downloads\\AirBB 2 (3) (2)\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj",
         "projectName": "AirBB",
-        "projectPath": "C:\\Users\\HARSHAVARDAN BADRI\\Downloads\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj",
-        "packagesPath": "C:\\Users\\HARSHAVARDAN BADRI\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\HARSHAVARDAN BADRI\\Downloads\\AirBB 2 (2)\\AirBB 2\\AirBB\\obj\\",
+        "projectPath": "C:\\Users\\ramya\\Downloads\\AirBB 2 (3) (2)\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj",
+        "packagesPath": "C:\\Users\\ramya\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ramya\\Downloads\\AirBB 2 (3) (2)\\AirBB 2 (2)\\AirBB 2\\AirBB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\HARSHAVARDAN BADRI\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\ramya\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net8.0"
+          "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {}
           }
         },
@@ -43,22 +41,22 @@
         "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+            "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.7, )"
+              "version": "[9.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[8.0.7, )"
+              "version": "[9.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.7, )"
+              "version": "[9.0.0, )"
             }
           },
           "imports": [
@@ -72,24 +70,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.22, 8.0.22]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.22, 8.0.22]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.22, 8.0.22]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.22, 8.0.22]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"

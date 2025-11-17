@@ -1,0 +1,26 @@
+@model AirBB.Models.Reservation
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Reservation Details";
+}
+
+<h2 class="text-danger fw-bold mb-3">Reservation Details</h2>
+
+<div class="card shadow-sm p-4 border-0">
+
+    <p><strong>Residence:</strong> @Model.Residence?.Name</p>
+    <p><strong>Client:</strong> @Model.Client?.Name</p>
+
+    <p>
+        <strong>Dates:</strong>
+        @Model.ReservationStartDate.ToShortDateString()
+        –
+        @Model.ReservationEndDate.ToShortDateString()
+    </p>
+
+    <p class="fw-bold text-danger">Total Price: $@Model.TotalPrice</p>
+
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>

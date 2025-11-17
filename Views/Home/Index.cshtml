@@ -1,85 +1,102 @@
-﻿@model AirBB.Models.ViewModels.HomeViewModel
-
+﻿@model IEnumerable<AirBB.Models.Residence>
 @{
     ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Welcome to AirBB</h2>
 
-<form asp-action="Filter" method="post" class="mb-3">
-    @Html.AntiForgeryToken()
-    <label>Where:</label>
-    <select asp-for="SelectedLocationId" asp-items="@(new SelectList(Model.Locations, "LocationId", "Name"))">
-        <option value="0">All</option>
-    </select>
+<div class="container mt-4">
+    <form asp-action="Index" method="get">
+        <div class="filter-bar shadow p-3 bg-white rounded d-flex flex-wrap align-items-end gap-3">
 
-    <label>When:</label>
-    <input id="daterange" type="text" class="form-control d-inline-block" style="max-width:260px" autocomplete="off" />
-    <input type="hidden" asp-for="StartDate" />
-    <input type="hidden" asp-for="EndDate" />
+           
+            <div class="flex-grow-1">
+                <label class="form-label fw-bold">Where</label>
+                <select name="locationId" class="form-control">
+                    <option value="">All</option>
 
-    <label>Who:</label>
-    <input asp-for="GuestCount" type="number" min="1" />
-
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
-
-<hr />
-
-<div class="row">
-    @foreach (var res in Model.Residences!)
-    {
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <img src="~/images/@res.ResidencePicture" class="card-img-top" />
-                <div class="card-body">
-                    <h5>@res.Name</h5>
-                    <p>@res.Location?.Name</p>
-                    <a asp-controller="Home" asp-action="Details" asp-route-id="@res.ResidenceId" class="btn btn-info me-2">Details</a>
-                    <form asp-controller="Reservation" asp-action="Reserve" method="post" class="d-inline">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="residenceId" value="@res.ResidenceId" />
-                        <input type="hidden" name="startDate" value="@(Model.StartDate?.ToString("yyyy-MM-dd") ?? "")" />
-                        <input type="hidden" name="endDate" value="@(Model.EndDate?.ToString("yyyy-MM-dd") ?? "")" />
-                        <button type="submit" class="btn btn-success">Reserve</button>
-                    </form>
-                </div>
+                    @if (ViewBag.Locations != null)
+                    {
+                        foreach (var loc in ViewBag.Locations)
+                        {
+                            <option value="@loc.LocationId">@loc.Name</option>
+                        }
+                    }
+                </select>
             </div>
+
+           
+            <div>
+                <label class="form-label fw-bold">Check-in</label>
+                <input type="date" name="start" class="form-control" />
+            </div>
+
+           
+            <div>
+                <label class="form-label fw-bold">Check-out</label>
+                <input type="date" name="end" class="form-control" />
+            </div>
+
+            <div style="width:120px;">
+                <label class="form-label fw-bold">Guests</label>
+                <input type="number" name="guests" class="form-control" min="1" value="1" />
+            </div>
+
+           
+            <div>
+                <button class="btn btn-primary px-4">Filter</button>
+            </div>
+
+            
+            <div>
+                <a href="/Home" class="btn btn-secondary px-4">Clear</a>
+            </div>
+
         </div>
-    }
+    </form>
 </div>
 
-@section Scripts {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/min/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script>
-        $(function () {
-            var s = '@(Model.StartDate?.ToString("MM/dd/yyyy") ?? "")';
-            var e = '@(Model.EndDate?.ToString("MM/dd/yyyy") ?? "")';
-            if (s && e) $('#daterange').val(s + ' - ' + e);
 
-            $('#daterange').daterangepicker({
-                autoUpdateInput: false,
-                locale: { cancelLabel: 'Clear' }
-            });
+<div class="container mt-4">
+    <h2 class="mb-3 fw-bold">Available Residences</h2>
 
-            $('#daterange').on('apply.daterangepicker', function (ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-                $('input[name="StartDate"]').val(picker.startDate.format('YYYY-MM-DD'));
-                $('input[name="EndDate"]').val(picker.endDate.format('YYYY-MM-DD'));
-                $('input[name="startDate"]').val(picker.startDate.format('YYYY-MM-DD'));
-                $('input[name="endDate"]').val(picker.endDate.format('YYYY-MM-DD'));
-            });
+    <div class="row">
+        @foreach (var r in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-lg border-0 rounded-4 residence-card">
 
-            $('#daterange').on('cancel.daterangepicker', function () {
-                $(this).val('');
-                $('input[name="StartDate"]').val('');
-                $('input[name="EndDate"]').val('');
-                $('input[name="startDate"]').val('');
-                $('input[name="endDate"]').val('');
-            });
-        });
-    </script>
-}
+                    <img src="~/images/@r.ResidencePicture"
+                         class="card-img-top rounded-top-4"
+                         style="height:250px; width:100%; object-fit:cover;" />
+
+                    <div class="card-body">
+                        <h5 class="fw-bold">@r.Name</h5>
+                        <p class="text-muted">@r.Location?.City</p>
+                        <p class="fw-bold text-dark">
+                            $@r.PricePerNight <span class="text-muted">/ night</span>
+                        </p>
+
+                        <a class="btn btn-danger w-100 mt-2"
+                           asp-action="Details"
+                           asp-route-id="@r.ResidenceId">
+                            View Details
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .residence-card {
+        transition: transform .2s ease, box-shadow .2s ease;
+        border-radius: 16px !important;
+    }
+    .residence-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0px 8px 20px rgba(0,0,0,0.25);
+    }
+</style>

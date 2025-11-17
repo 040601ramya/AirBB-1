@@ -1,0 +1,57 @@
+@model AirBB.Models.Residence
+
+@{
+    ViewData["Title"] = "Edit Residence";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Edit Residence</h2>
+    <hr />
+
+    <form asp-action="Edit" method="post">
+
+        <input type="hidden" asp-for="ResidenceId" />
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Location</label>
+            <select asp-for="LocationId" class="form-control"
+                    asp-items="@(new SelectList(ViewBag.Locations, "LocationId", "City"))">
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Price per Night</label>
+            <input asp-for="PricePerNight" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Bedrooms</label>
+            <input asp-for="BedroomNumber" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Bathrooms</label>
+            <input asp-for="BathroomNumber" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Built Year</label>
+            <input asp-for="BuiltYear" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Image Name</label>
+            <input asp-for="ResidencePicture" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+    </form>
+</div>

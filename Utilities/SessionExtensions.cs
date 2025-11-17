@@ -1,4 +1,3 @@
-// File: Utilities/SessionExtensions.cs
 using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
@@ -14,9 +13,12 @@ namespace AirBB.Utilities
         public static T? GetObject<T>(this ISession session, string key)
         {
             var json = session.GetString(key);
-            return json is null ? default : JsonSerializer.Deserialize<T>(json);
+            return json == null ? default : JsonSerializer.Deserialize<T>(json);
         }
 
-        public static void RemoveKey(this ISession session, string key) => session.Remove(key);
+        public static void RemoveKey(this ISession session, string key)
+        {
+            session.Remove(key);
+        }
     }
 }

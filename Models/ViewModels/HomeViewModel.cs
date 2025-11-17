@@ -5,12 +5,13 @@ namespace AirBB.Models.ViewModels
 {
     public class HomeViewModel
     {
-        public int SelectedLocationId { get; set; }  // 0 = All
+        public List<Residence>? Residences { get; set; }
+        public List<Location>? Locations { get; set; }
+
+        public int SelectedLocationId { get; set; }
+        public int GuestCount { get; set; }
+
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public int GuestCount { get; set; } = 1;
-
-        public List<Location> Locations { get; set; } = new();
-        public List<Residence> Residences { get; set; } = new();
     }
 }

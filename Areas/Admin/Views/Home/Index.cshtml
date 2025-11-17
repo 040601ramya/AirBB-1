@@ -1,16 +1,12 @@
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Home";
 }
-<h2 class="mb-3">Admin Dashboard</h2>
 
-<div class="row g-3">
-    <div class="col-md-6">
-        <div class="card p-3">
-            <h5 class="card-title mb-2">Quick Links</h5>
-            <ul class="list-unstyled mb-0">
-                <li><a class="btn btn-link p-0" asp-area="" asp-controller="Home" asp-action="Index">Go to Home</a></li>
-                <li><a class="btn btn-link p-0" asp-area="" asp-controller="Reservation" asp-action="Index">View Reservations</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+<h1 class="fw-bold text-primary mb-4">Admin Home</h1>
+
+<ul class="fs-5">
+    <li><a href="/Admin/Locations" class="text-primary fw-semibold">Manage Locations</a></li>
+    <li><a href="/Admin/Residences" class="text-primary fw-semibold">Manage Residences</a></li>
+    <li><a href="/Admin/Users" class="text-primary fw-semibold">Manage Users</a></li>
+</ul>

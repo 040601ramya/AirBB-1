@@ -1,38 +1,31 @@
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AirBB.Models.Cookies
 {
     public static class CookieHelper
     {
-        private const string CookieName = "airbb_res";
-
-        public static List<int> GetReservationIds(HttpRequest request)
+        public static void SetCookie(HttpContext context, string key, string value, int? expireTime)
         {
-            if (!request.Cookies.TryGetValue(CookieName, out var raw) || string.IsNullOrWhiteSpace(raw))
-                return new List<int>();
+            if (context == null) return;
 
-            return raw.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                      .Select(s => int.TryParse(s, out var id) ? id : (int?)null)
-                      .Where(id => id.HasValue)
-                      .Select(id => id!.Value)
-                      .Distinct()
-                      .ToList();
+            CookieOptions option = new CookieOptions();
+
+            if (expireTime.HasValue)
+                option.Expires = DateTimeOffset.Now.AddMinutes(expireTime.Value);
+            else
+                option.Expires = DateTimeOffset.Now.AddMinutes(10);
+
+            context.Response?.Cookies?.Append(key, value, option);
         }
 
-        public static void SaveReservationIds(HttpResponse response, List<int> ids)
+        public static string? GetCookie(HttpContext context, string key)
         {
-            var value = string.Join(",", ids.Distinct());
-            response.Cookies.Append(CookieName, value, new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddDays(7), // 7-day expiry
-                HttpOnly = false,
-                IsEssential = true,
-                SameSite = SameSiteMode.Lax,
-                Secure = true
-            });
+            return context?.Request?.Cookies?[key];
+        }
+
+        public static void DeleteCookie(HttpContext context, string key)
+        {
+            context?.Response?.Cookies?.Delete(key);
         }
     }
 }

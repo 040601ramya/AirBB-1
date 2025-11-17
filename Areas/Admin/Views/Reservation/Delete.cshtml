@@ -1,0 +1,27 @@
+@model AirBB.Models.Reservation
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Delete Reservation";
+}
+
+<h2 class="text-danger fw-bold mb-3">Delete Reservation</h2>
+
+<div class="alert alert-danger">
+    Are you sure you want to delete this reservation?
+
+    <br /><br />
+
+    <strong>Residence:</strong> @Model.Residence?.Name <br />
+    <strong>Client:</strong> @Model.Client?.Name <br />
+    <strong>Dates:</strong>
+    @Model.ReservationStartDate.ToShortDateString() –
+    @Model.ReservationEndDate.ToShortDateString()
+</div>
+
+<form asp-action="DeleteConfirmed">
+    <input type="hidden" asp-for="ReservationId" />
+
+    <button class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

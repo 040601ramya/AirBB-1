@@ -1,0 +1,45 @@
+@model IEnumerable<AirBB.Models.User>
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">Manage Users</h2>
+
+    <a asp-action="Create" class="btn btn-primary mb-3">Add New User</a>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>SSN</th>
+                <th>User Type</th>
+                <th style="width:160px;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Email</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.SSN</td>
+                    <td>@item.UserType</td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.UserId"
+                           class="btn btn-warning btn-sm me-1">Edit</a>
+
+                        <a asp-action="Delete" asp-route-id="@item.UserId"
+                           class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,41 @@
+@model IEnumerable<AirBB.Models.User>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Manage Users";
+}
+
+<h2 class="fw-bold text-primary mb-3">Manage Users</h2>
+
+<a href="/Admin/Users/Create" class="btn btn-primary mb-3">Add New User</a>
+
+<table class="table table-bordered shadow">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>SSN</th>
+            <th>User Type</th>
+            <th style="width:160px">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.Name</td>
+                <td>@u.Email</td>
+                <td>@u.PhoneNumber</td>
+                <td>@u.SSN</td>
+                <td>@u.UserType</td>
+
+                <td>
+                    <a href="/Admin/Users/Edit/@u.UserId" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/Admin/Users/Delete/@u.UserId" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

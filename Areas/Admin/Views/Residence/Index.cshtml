@@ -1,0 +1,48 @@
+@model IEnumerable<AirBB.Models.Residence>
+
+@{
+    ViewData["Title"] = "Manage Residences";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Manage Residences</h1>
+
+    <a asp-action="Create" class="btn btn-primary mb-3">Add New Residence</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Bedrooms</th>
+                <th>Bathrooms</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Name</td>
+                    <td>@r.Location?.City</td>
+                    <td>@r.PricePerNight</td>
+                    <td>@r.BedroomNumber</td>
+                    <td>@r.BathroomNumber</td>
+                    <td>
+                        <a asp-action="Edit"
+                           asp-route-id="@r.ResidenceId"
+                           class="btn btn-warning btn-sm">Edit</a>
+
+                        <a asp-action="Delete"
+                           asp-route-id="@r.ResidenceId"
+                           class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

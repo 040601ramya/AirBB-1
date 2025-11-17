@@ -1,80 +1,38 @@
-@model AirBB.Models.ViewModels.DetailViewModel
-
+@model AirBB.Models.Residence
 @{
-    ViewData["Title"] = "Residence Detail";
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="card">
-    <img src="~/images/@Model.Residence.ResidencePicture" class="card-img-top" alt="@Model.Residence.Name" />
-    <div class="card-body">
-        <h4>@Model.Residence.Name</h4>
-        <p>@Model.Residence.Location?.Name</p>
-        <p>Guests: @Model.Residence.GuestNumber • Bedrooms: @Model.Residence.BedroomNumber • Bathrooms: @Model.Residence.BathroomNumber</p>
-        <p>Price/Night: @Model.Residence.PricePerNight</p>
+<div class="container mt-4">
 
-        <form asp-controller="Reservation" asp-action="Reserve" method="post" class="row g-2">
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="residenceId" value="@Model.Residence.ResidenceId" />
-            <div class="col-sm-4">
-                <label class="form-label">Start</label>
-                <select id="startDate" name="startDate" class="form-select" required>
-                    <option value="">Select</option>
-                    @foreach (var d in Model.StartDateOptions)
-                    {
-                        <option value="@d.ToString("yyyy-MM-dd")">@d.ToString("MM/dd/yyyy")</option>
-                    }
-                </select>
-            </div>
-            <div class="col-sm-4">
-                <label class="form-label">End</label>
-                <select id="endDate" name="endDate" class="form-select" required disabled>
-                    <option value="">Select</option>
-                    @foreach (var d in Model.EndDateOptions)
-                    {
-                        <option value="@d.ToString("yyyy-MM-dd")">@d.ToString("MM/dd/yyyy")</option>
-                    }
-                </select>
-            </div>
-            <div class="col-sm-4 d-flex align-items-end">
-                <button type="submit" class="btn btn-success w-100">Reserve</button>
-            </div>
-        </form>
+    <img src="~/images/@Model.ResidencePicture"
+         class="img-fluid rounded mb-4"
+         style="width:100%; height:450px; object-fit:cover;" />
 
-        <a asp-action="Index" class="btn btn-secondary mt-3">Back to Home</a>
-    </div>
+    <h2 class="fw-bold">@Model.Name</h2>
+    <p class="text-muted">@Model.Location?.City • Sleeps @Model.GuestNumber • @Model.BedroomNumber br / @Model.BathroomNumber bath</p>
+
+    <h4 class="mt-2">$@Model.PricePerNight / night</h4>
+
+    <form asp-controller="Reservation" asp-action="Create" method="post" class="mt-4">
+
+        <input type="hidden" name="residenceId" value="@Model.ResidenceId" />
+
+        <div class="row">
+            <div class="col-md-4">
+                <label>Check-in</label>
+                <input type="date" name="checkIn" class="form-control" required />
+            </div>
+
+            <div class="col-md-4">
+                <label>Check-out</label>
+                <input type="date" name="checkOut" class="form-control" required />
+            </div>
+        </div>
+
+        <button class="btn btn-success mt-3 px-4">Reserve</button>
+        <a href="/Home" class="btn btn-secondary mt-3">Back to Home</a>
+    </form>
+
 </div>
-
-@section Scripts {
-@{
-    var list = new System.Collections.Generic.List<object>();
-    foreach (var d in Model.EndDateOptions)
-    {
-        list.Add(new { iso = d.ToString("yyyy-MM-dd"), label = d.ToString("MM/dd/yyyy") });
-    }
-    var endDatesJson = System.Text.Json.JsonSerializer.Serialize(list);
-}
-<script>
-(function(){
-    const startSel = document.getElementById('startDate');
-    const endSel   = document.getElementById('endDate');
-
-    function isoToDate(v){ const [y,m,d]=v.split('-').map(Number); return new Date(y, m-1, d); }
-    function clearEnd(){ while (endSel.options.length > 1) endSel.remove(1); }
-
-    const all = @Html.Raw(endDatesJson);
-
-    function repopulateEnd(minIso){
-        clearEnd();
-        const min = isoToDate(minIso);
-        all.filter(x => isoToDate(x.iso) > min)
-           .forEach(x => endSel.add(new Option(x.label, x.iso)));
-        endSel.disabled = false;
-    }
-
-    startSel.addEventListener('change', function(){
-        if (!this.value) { clearEnd(); endSel.disabled = true; return; }
-        repopulateEnd(this.value);
-    });
-})();
-</script>
-}

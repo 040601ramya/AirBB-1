@@ -1,60 +1,44 @@
-﻿@{
-    var title = ViewData["Title"] as string ?? "AirBB";
-}
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@title - AirBB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - AirBB</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">AirBB</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="mainNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Reservation" asp-action="Index">Reservations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
 
-        @if (TempData["ReservationMessage"] != null)
-        {
-            <div class="container mt-3">
-                <div class="alert alert-success mb-0">@TempData["ReservationMessage"]</div>
-            </div>
-        }
-    </header>
+   
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/Home/Index">AirBB</a>
 
-    <main role="main" class="container mt-4 flex-grow-1">
+            <div>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/Home/Index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Reservation">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Admin/Home">Admin</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1">
         @RenderBody()
     </main>
 
-    <footer class="text-center text-muted py-3 border-top bg-light mt-auto">
-        <div class="container">
-            <p class="mb-1">&copy; 2025 AirBB. All rights reserved.</p>
-            <a asp-controller="Home" asp-action="Privacy" class="text-decoration-none me-3">Privacy Policy</a>
-            <a asp-controller="Home" asp-action="Cancellation" class="text-decoration-none">Cancellation Policy</a>
+    
+    <footer class="bg-dark text-white mt-4 py-3">
+        <div class="container text-center">
+            <a href="#" class="text-white mx-2">Support</a> |
+            <a href="#" class="text-white mx-2">Cancellation Policy</a> |
+            <a href="#" class="text-white mx-2">Terms & Conditions</a> |
+            <a href="#" class="text-white mx-2">Cookie Policies</a>
+            <p class="mt-2">© 2025 - AirBB</p>
         </div>
     </footer>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

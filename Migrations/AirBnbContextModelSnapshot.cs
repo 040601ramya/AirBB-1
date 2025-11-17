@@ -19,7 +19,7 @@ namespace AirBB.Migrations
 
             modelBuilder.Entity("AirBB.Models.Client", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("ClientId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -27,26 +27,23 @@ namespace AirBB.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("UserId");
+                    b.HasKey("ClientId");
 
                     b.ToTable("Clients");
 
                     b.HasData(
                         new
                         {
-                            UserId = 1,
+                            ClientId = 1,
                             DOB = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "demo@example.com",
                             Name = "Demo User",
@@ -60,8 +57,19 @@ namespace AirBB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("City")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("LocationId");
@@ -72,17 +80,23 @@ namespace AirBB.Migrations
                         new
                         {
                             LocationId = 1,
-                            Name = "Chicago"
+                            City = "Chicago",
+                            Country = "",
+                            State = ""
                         },
                         new
                         {
                             LocationId = 2,
-                            Name = "New York"
+                            City = "New York",
+                            Country = "",
+                            State = ""
                         },
                         new
                         {
                             LocationId = 3,
-                            Name = "Miami"
+                            City = "Miami",
+                            Country = "",
+                            State = ""
                         });
                 });
 
@@ -114,6 +128,35 @@ namespace AirBB.Migrations
                     b.HasIndex("ResidenceId");
 
                     b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            ReservationId = 1,
+                            ClientId = 1,
+                            ReservationEndDate = new DateTime(2025, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReservationStartDate = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ResidenceId = 1,
+                            TotalPrice = 360m
+                        },
+                        new
+                        {
+                            ReservationId = 2,
+                            ClientId = 1,
+                            ReservationEndDate = new DateTime(2025, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReservationStartDate = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ResidenceId = 2,
+                            TotalPrice = 400m
+                        },
+                        new
+                        {
+                            ReservationId = 3,
+                            ClientId = 1,
+                            ReservationEndDate = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReservationStartDate = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ResidenceId = 3,
+                            TotalPrice = 1000m
+                        });
                 });
 
             modelBuilder.Entity("AirBB.Models.Residence", b =>
@@ -122,10 +165,13 @@ namespace AirBB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BathroomNumber")
-                        .HasColumnType("INTEGER");
+                    b.Property<decimal>("BathroomNumber")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("BedroomNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BuiltYear")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("GuestNumber")
@@ -136,6 +182,7 @@ namespace AirBB.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("PricePerNight")
@@ -155,8 +202,9 @@ namespace AirBB.Migrations
                         new
                         {
                             ResidenceId = 1,
-                            BathroomNumber = 1,
+                            BathroomNumber = 1m,
                             BedroomNumber = 2,
+                            BuiltYear = 2010,
                             GuestNumber = 3,
                             LocationId = 1,
                             Name = "Chicago Loop Apartment",
@@ -166,19 +214,21 @@ namespace AirBB.Migrations
                         new
                         {
                             ResidenceId = 2,
-                            BathroomNumber = 2,
+                            BathroomNumber = 2m,
                             BedroomNumber = 2,
+                            BuiltYear = 2012,
                             GuestNumber = 4,
                             LocationId = 2,
-                            Name = "New York City Loft",
+                            Name = "NYC Loft",
                             PricePerNight = 200m,
                             ResidencePicture = "newyork.jpg"
                         },
                         new
                         {
                             ResidenceId = 3,
-                            BathroomNumber = 2,
+                            BathroomNumber = 2m,
                             BedroomNumber = 3,
+                            BuiltYear = 2015,
                             GuestNumber = 6,
                             LocationId = 3,
                             Name = "Miami Beach House",
@@ -187,18 +237,47 @@ namespace AirBB.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AirBB.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SSN")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("AirBB.Models.Reservation", b =>
                 {
                     b.HasOne("AirBB.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AirBB.Models.Residence", "Residence")
                         .WithMany()
                         .HasForeignKey("ResidenceId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -211,7 +290,7 @@ namespace AirBB.Migrations
                     b.HasOne("AirBB.Models.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Location");

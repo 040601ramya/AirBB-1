@@ -1,27 +1,44 @@
-// File: Services/SessionHelper.cs
+using AirBB.Models;
+using AirBB.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
-using AirBB.Utilities;
+using System.Text.Json;
 
 namespace AirBB.Services
 {
-    public interface ISessionHelper
-    {
-        void Set<T>(string key, T value);
-        T? Get<T>(string key);
-        void Remove(string key);
-    }
-
     public class SessionHelper : ISessionHelper
     {
         private readonly IHttpContextAccessor _http;
-        public SessionHelper(IHttpContextAccessor http) => _http = http;
 
-        public void Set<T>(string key, T value) =>
-            _http.HttpContext!.Session.SetObject(key, value);
+        private const string FILTER_KEY = "SearchFilters";
 
-        public T? Get<T>(string key) =>
-            _http.HttpContext!.Session.GetObject<T>(key);
+        public SessionHelper(IHttpContextAccessor http)
+        {
+            _http = http;
+        }
 
-        public void Remove(string key) => _http.HttpContext!.Session.RemoveKey(key);
+        public void SaveSearchFilters(HomeViewModel model)
+        {
+            if (_http.HttpContext == null) return;
+
+            string json = JsonSerializer.Serialize(model);
+            _http.HttpContext.Session.SetString(FILTER_KEY, json);
+        }
+
+        public HomeViewModel? GetSearchFilters()
+        {
+            if (_http.HttpContext == null) return null;
+
+            string? json = _http.HttpContext.Session.GetString(FILTER_KEY);
+
+            if (string.IsNullOrEmpty(json))
+                return null;
+
+            return JsonSerializer.Deserialize<HomeViewModel>(json);
+        }
+
+        public void ClearFilters()
+        {
+            _http.HttpContext?.Session?.Remove(FILTER_KEY);
+        }
     }
 }

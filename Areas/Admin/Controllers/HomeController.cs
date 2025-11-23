@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using AirBB.Models;
 
 namespace AirBB.Areas.Admin.Controllers
@@ -16,11 +15,6 @@ namespace AirBB.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.TotalUsers = _context.Users.Count();
-            ViewBag.TotalResidence = _context.Residences.Count();   // FIXED
-            ViewBag.TotalReservations = _context.Reservations.Count();
-            ViewBag.TotalLocations = _context.Locations.Count();
-
             return View();
         }
     }

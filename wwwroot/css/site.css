@@ -10,15 +10,21 @@ html {
     }
 }
 
-body {
+/* 🔹 PUBLIC pages background ONLY */
+body:not(.admin-body) {
     margin-bottom: 60px;
-
-    /* Background Image (Airbnb) */
     background-image: url('/images/background.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 🔹 ADMIN pages: clean background */
+.admin-body {
+    margin-bottom: 60px;
+    background-color: #f3f6fb !important;
     font-family: 'Segoe UI', sans-serif;
 }
 
@@ -28,7 +34,7 @@ body {
 .btn-link.nav-link:focus,
 .form-control:focus,
 .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 
+    box-shadow: 0 0 0 0.1rem white,
                 0 0 0 0.25rem #258cfb;
 }
 
@@ -44,7 +50,7 @@ body {
     text-align: start;
 }
 
-/* Optional main container overlay for readability */
+/* Optional main container overlay for readability (PUBLIC layout main.container) */
 main.container {
     background-color: rgba(255, 255, 255, 0.88);
     border-radius: 8px;

@@ -23,6 +23,7 @@ namespace AirBB.Areas.Admin.Controllers
             _context = context;
             _env = env;
         }
+
         public async Task<IActionResult> Index()
         {
             var residences = await _context.Residences
@@ -38,10 +39,15 @@ namespace AirBB.Areas.Admin.Controllers
             return View();
         }
 
-       
         [HttpPost]
         public async Task<IActionResult> Create(Residence model, IFormFile picture)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Locations = _context.Locations.ToList();
+                return View(model);
+            }
+
             if (picture != null)
             {
                 string fileName = Guid.NewGuid() + Path.GetExtension(picture.FileName);
@@ -61,7 +67,6 @@ namespace AirBB.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-       
         public async Task<IActionResult> Edit(int id)
         {
             var residence = await _context.Residences.FindAsync(id);
@@ -74,6 +79,12 @@ namespace AirBB.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Residence model, IFormFile picture)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Locations = _context.Locations.ToList();
+                return View(model);
+            }
+
             if (picture != null)
             {
                 string fileName = Guid.NewGuid() + Path.GetExtension(picture.FileName);
@@ -93,16 +104,41 @@ namespace AirBB.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-       
         public async Task<IActionResult> Delete(int id)
         {
-            var residence = await _context.Residences.FindAsync(id);
+            var residence = await _context.Residences
+                .Include(r => r.Location)
+                .FirstOrDefaultAsync(r => r.ResidenceId == id);
+
+            if (residence == null) return NotFound();
+
+            return View(residence);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int residenceId)
+        {
+            var residence = await _context.Residences.FindAsync(residenceId);
             if (residence == null) return NotFound();
 
             _context.Residences.Remove(residence);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        // 🔴 REMOTE VALIDATION: ownerId must exist in Users table
+        [AcceptVerbs("Get", "Post")]
+        public IActionResult VerifyOwner(int ownerId)
+        {
+            bool exists = _context.Users.Any(u => u.UserId == ownerId);
+
+            if (exists)
+            {
+                return Json(true);
+            }
+
+            return Json($"Owner with id {ownerId} does not exist.");
         }
     }
 }

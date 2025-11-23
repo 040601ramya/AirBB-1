@@ -3111,19 +3111,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ramya\\.nuget\\packages\\": {}
+    "/Users/shravanvalluri/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ramya\\Downloads\\AirBB 2 (3) (2)\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj",
+      "projectUniqueName": "/Users/shravanvalluri/AirBB-1/AirBB.csproj",
       "projectName": "AirBB",
-      "projectPath": "C:\\Users\\ramya\\Downloads\\AirBB 2 (3) (2)\\AirBB 2 (2)\\AirBB 2\\AirBB\\AirBB.csproj",
-      "packagesPath": "C:\\Users\\ramya\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ramya\\Downloads\\AirBB 2 (3) (2)\\AirBB 2 (2)\\AirBB 2\\AirBB\\obj\\",
+      "projectPath": "/Users/shravanvalluri/AirBB-1/AirBB.csproj",
+      "packagesPath": "/Users/shravanvalluri/.nuget/packages/",
+      "outputPath": "/Users/shravanvalluri/AirBB-1/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ramya\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/shravanvalluri/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -3187,7 +3187,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

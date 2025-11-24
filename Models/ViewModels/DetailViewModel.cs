@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AirBB.Models.DomainModels;   // ✔ FIX: correct namespace for Residence
 
 namespace AirBB.Models.ViewModels
 {

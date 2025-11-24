@@ -1,15 +1,14 @@
-﻿@model IEnumerable<AirBB.Models.Residence>
+﻿@model IEnumerable<AirBB.Models.DomainModels.Residence>
+
 @{
     ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="container mt-4">
     <form asp-action="Index" method="get">
         <div class="filter-bar shadow p-3 bg-white rounded d-flex flex-wrap align-items-end gap-3">
 
-           
             <div class="flex-grow-1">
                 <label class="form-label fw-bold">Where</label>
                 <select name="locationId" class="form-control">
@@ -25,13 +24,11 @@
                 </select>
             </div>
 
-           
             <div>
                 <label class="form-label fw-bold">Check-in</label>
                 <input type="date" name="start" class="form-control" />
             </div>
 
-           
             <div>
                 <label class="form-label fw-bold">Check-out</label>
                 <input type="date" name="end" class="form-control" />
@@ -42,12 +39,10 @@
                 <input type="number" name="guests" class="form-control" min="1" value="1" />
             </div>
 
-           
             <div>
                 <button class="btn btn-primary px-4">Filter</button>
             </div>
 
-            
             <div>
                 <a href="/Home" class="btn btn-secondary px-4">Clear</a>
             </div>
@@ -55,7 +50,6 @@
         </div>
     </form>
 </div>
-
 
 <div class="container mt-4">
     <h2 class="mb-3 fw-bold">Available Residences</h2>
@@ -78,6 +72,7 @@
                         </p>
 
                         <a class="btn btn-danger w-100 mt-2"
+                           asp-controller="Residences"
                            asp-action="Details"
                            asp-route-id="@r.ResidenceId">
                             View Details

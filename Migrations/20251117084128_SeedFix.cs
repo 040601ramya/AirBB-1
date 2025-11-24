@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AirBB.Migrations
 {
-    /// <inheritdoc />
+   
     public partial class SeedFix : Migration
     {
         /// <inheritdoc />

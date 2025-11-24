@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace AirBB.Models
+namespace AirBB.Models.DomainModels
 {
     public class User : IValidatableObject
     {

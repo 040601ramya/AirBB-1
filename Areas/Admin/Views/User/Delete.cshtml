@@ -1,4 +1,4 @@
-@model AirBB.Models.User
+@model AirBB.Models.DomainModels.User
 
 <h2>Delete User</h2>
 
@@ -13,7 +13,7 @@
 </ul>
 
 <form asp-action="DeleteConfirmed" method="post">
-    <input type="hidden" asp-for="UserId"/>
+    <input type="hidden" asp-for="UserId" />
     <button class="btn btn-danger">Delete</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

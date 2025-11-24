@@ -1,16 +1,16 @@
-using AirBB.Models;
+using AirBB.Models.DataLayer;                  
+using AirBB.Models.DataLayer.Repositories;     
 using AirBB.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllersWithViews();
-
 
 builder.Services.AddDbContext<AirBnbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ISessionHelper, SessionHelper>();
@@ -25,7 +25,6 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -34,12 +33,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseSession();
 app.UseAuthorization();
-
 
 app.MapControllerRoute(
     name: "areas",

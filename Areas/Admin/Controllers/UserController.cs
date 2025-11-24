@@ -1,8 +1,9 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AirBB.Models;
+
+using AirBB.Models.DomainModels;            
+using AirBB.Models.DataLayer;               
+using AirBB.Models.DataLayer.Repositories;  
 
 namespace AirBB.Areas.Admin.Controllers
 {
@@ -18,7 +19,11 @@ namespace AirBB.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            var users = await _context.Users
+                .OrderBy(u => u.Name)
+                .ToListAsync();
+
+            return View(users);
         }
 
         public IActionResult Create()
@@ -41,7 +46,9 @@ namespace AirBB.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var user = await _context.Users.FindAsync(id);
-            if (user == null) return NotFound();
+            if (user == null)
+                return NotFound();
+
             return View(user);
         }
 
@@ -60,7 +67,8 @@ namespace AirBB.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var user = await _context.Users.FindAsync(id);
-            if (user == null) return NotFound();
+            if (user == null)
+                return NotFound();
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();

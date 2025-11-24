@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AirBB.Models.DomainModels;   // ✅ Correct namespace for User model
 
 namespace AirBB.Models.Validation
 {
@@ -6,7 +7,8 @@ namespace AirBB.Models.Validation
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext ctx)
         {
-            var user = (AirBB.Models.User)ctx.ObjectInstance;
+            // ❗ FIX: Use the correct User class namespace
+            var user = (User)ctx.ObjectInstance;
 
             bool hasEmail = !string.IsNullOrWhiteSpace(user.Email);
             bool hasPhone = !string.IsNullOrWhiteSpace(user.PhoneNumber);

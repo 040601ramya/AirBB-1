@@ -1,11 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AirBB.Models
+namespace AirBB.Models.DomainModels
 {
     public class Client
     {
-        public int ClientId { get; set; }   // ✅ FIXED PRIMARY KEY
+        public int ClientId { get; set; }  
 
         [Required]
         public string Name { get; set; } = "";

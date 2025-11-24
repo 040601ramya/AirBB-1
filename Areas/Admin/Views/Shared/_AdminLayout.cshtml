@@ -22,10 +22,11 @@
             padding: 1.5rem 1rem;
         }
 
-        .admin-brand {
-            font-size: 1.4rem;
+        .admin-brand a {
+            color: #fff;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 2rem;
+            text-decoration: none;
         }
 
         .admin-nav a {
@@ -74,26 +75,35 @@
     </style>
 </head>
 
-<!-- 🔹 admin-body class here is the magic -->
 <body class="admin-body d-flex">
 
+    <!-- LEFT SIDEBAR -->
     <aside class="admin-sidebar">
-        <div class="admin-brand">
-            AirBB Admin
+        
+        <!-- 🔵 REPLACED DASHBOARD + BACK TO SITE WITH LOGO -->
+        <div class="admin-brand mb-4">
+            <a asp-area="" asp-controller="Home" asp-action="Index">AirBB</a>
         </div>
 
+        <!-- ADMIN NAVIGATION -->
         <nav class="admin-nav">
-            <a asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a>
             <a asp-area="Admin" asp-controller="Residence" asp-action="Index">Manage Residence</a>
             <a asp-area="Admin" asp-controller="Locations" asp-action="Index">Manage Location</a>
             <a asp-area="Admin" asp-controller="User" asp-action="Index">Manage User</a>
-            <a asp-area="" asp-controller="Home" asp-action="Index">Back to Site</a>
         </nav>
     </aside>
 
+    <!-- MAIN RIGHT SIDE -->
     <div class="admin-main">
+        
+        <!-- TOP BAR WITH AIRBB LOGO INSTEAD OF HOME/DASHBOARD -->
         <header class="admin-topbar">
-            <h5 class="mb-0">@ViewData["Title"]</h5>
+            <a asp-area="" asp-controller="Home" asp-action="Index" 
+               class="fw-bold text-dark text-decoration-none"
+               style="font-size:1.4rem;">
+                AirBB
+            </a>
+
             <span class="text-muted small">Admin Panel</span>
         </header>
 

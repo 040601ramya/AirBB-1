@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;          // for [Remote]
-using AirBB.Models.Validation;          // for BuiltYearValidationAttribute
-
-namespace AirBB.Models
+using Microsoft.AspNetCore.Mvc;         
+using AirBB.Models.Validation;          
+namespace AirBB.Models.DomainModels
 {
     public class Residence
     {
@@ -20,7 +19,7 @@ namespace AirBB.Models
         public int LocationId { get; set; }
         public Location? Location { get; set; }
 
-        // ⭐ NEW: OwnerId – this is what your view is binding to
+        
         [Required]
         [Remote(
             action: "VerifyOwner",
@@ -40,7 +39,7 @@ namespace AirBB.Models
         [Required]
         public decimal BathroomNumber { get; set; }
 
-        // ✅ Use custom validation, NOT [Range(1800,2050)]
+  
         [Required]
         [BuiltYearValidationAttribute]
         public int BuiltYear { get; set; }

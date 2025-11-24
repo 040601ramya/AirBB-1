@@ -1,4 +1,4 @@
-@model List<AirBB.Models.Reservation>
+@model List<AirBB.Models.DomainModels.Reservation>
 
 @{
     ViewData["Title"] = "My Reservations";
@@ -25,41 +25,37 @@
             @foreach (var r in Model)
             {
                 <tr>
-                   
+
                     <td style="width:150px;">
                         <img src="~/images/@r.Residence?.ResidencePicture"
                              class="img-fluid rounded"
                              style="width:130px; height:85px; object-fit:cover;" />
                     </td>
 
-                   
                     <td class="fw-bold">
                         @r.Residence?.Name
                     </td>
 
-                    
                     <td>
                         @r.Residence?.Location?.City
                     </td>
 
-                    
                     <td>
                         @r.ReservationStartDate.ToString("MM/dd/yyyy")
                         –
                         @r.ReservationEndDate.ToString("MM/dd/yyyy")
                     </td>
 
-                   
                     <td>
                         $@r.Residence?.PricePerNight
                     </td>
 
-                    
                     <td>
                         <form asp-action="Delete" asp-route-id="@r.ReservationId" method="post">
                             <button class="btn btn-danger btn-sm">Cancel</button>
                         </form>
                     </td>
+
                 </tr>
             }
         </tbody>

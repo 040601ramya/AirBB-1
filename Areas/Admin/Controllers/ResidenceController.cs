@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 
-using AirBB.Models;
+using AirBB.Models.DataLayer;        
+using AirBB.Models.DomainModels;       
 using System.IO;
 
 namespace AirBB.Areas.Admin.Controllers
@@ -124,10 +125,10 @@ namespace AirBB.Areas.Admin.Controllers
             _context.Residences.Remove(residence);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
-        // 🔴 REMOTE VALIDATION: ownerId must exist in Users table
+        
         [AcceptVerbs("Get", "Post")]
         public IActionResult VerifyOwner(int ownerId)
         {

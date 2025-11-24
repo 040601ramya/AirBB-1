@@ -1,4 +1,4 @@
-@model AirBB.Models.Residence
+@model AirBB.Models.DomainModels.Residence
 
 @{
     ViewData["Title"] = "Add Residence";
@@ -26,7 +26,7 @@
             <span asp-validation-for="LocationId" class="text-danger"></span>
         </div>
 
-        <!-- NEW: OwnerId with remote validation -->
+        <!-- Owner ID -->
         <div class="mb-3">
             <label class="form-label">Owner Id</label>
             <input asp-for="OwnerId" class="form-control" />

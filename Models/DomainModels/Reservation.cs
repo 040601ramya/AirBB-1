@@ -1,7 +1,7 @@
 using System;
 using AirBB.Models;
 
-namespace AirBB.Models
+namespace AirBB.Models.DomainModels
 {
     public class Reservation
     {
@@ -10,7 +10,7 @@ namespace AirBB.Models
         public DateTime ReservationStartDate { get; set; }
         public DateTime ReservationEndDate { get; set; }
 
-        // The foreign key must match what AirBnbContext expects
+       
         public int ClientId { get; set; }  
         public Client? Client { get; set; }
 

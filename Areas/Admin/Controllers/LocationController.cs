@@ -1,6 +1,6 @@
-using AirBB.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using AirBB.Models.DataLayer;        
+using AirBB.Models.DomainModels;     
 namespace AirBB.Areas.Admin.Controllers
 {
     [Area("Admin")]

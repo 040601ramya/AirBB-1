@@ -1,4 +1,5 @@
-@model AirBB.Models.Residence
+@model AirBB.Models.DomainModels.Residence
+
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,7 +12,10 @@
          style="width:100%; height:450px; object-fit:cover;" />
 
     <h2 class="fw-bold">@Model.Name</h2>
-    <p class="text-muted">@Model.Location?.City • Sleeps @Model.GuestNumber • @Model.BedroomNumber br / @Model.BathroomNumber bath</p>
+    <p class="text-muted">
+        @Model.Location?.City • Sleeps @Model.GuestNumber • 
+        @Model.BedroomNumber br / @Model.BathroomNumber bath
+    </p>
 
     <h4 class="mt-2">$@Model.PricePerNight / night</h4>
 

@@ -1,23 +1,31 @@
-using AirBB.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using AirBB.Models.DomainModels;                 
+using AirBB.Models.DataLayer;                  
+using AirBB.Models.DataLayer.Repositories;      
 
 namespace AirBB.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly AirBnbContext _context;
+        private readonly IRepository<Residence> _resRepo;
 
-        public HomeController(AirBnbContext context)
+        public HomeController(IRepository<Residence> resRepo)
         {
-            _context = context;
+            _resRepo = resRepo;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var residences = _context.Residences
-                .Include(r => r.Location)
-                .ToList();
+            
+            var options = new QueryOptions<Residence>
+            {
+                OrderBy = r => r.Name   
+            };
+
+            options.Includes.Add(r => r.Location);
+
+           
+            var residences = await _resRepo.ListAsync(options);
 
             return View(residences);
         }

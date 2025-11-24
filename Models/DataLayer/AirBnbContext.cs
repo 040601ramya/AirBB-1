@@ -1,7 +1,8 @@
-using System;                      
+using System;
 using Microsoft.EntityFrameworkCore;
+using AirBB.Models.DomainModels;   
 
-namespace AirBB.Models
+namespace AirBB.Models.DataLayer
 {
     public class AirBnbContext : DbContext
     {
@@ -14,19 +15,15 @@ namespace AirBB.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Experience> Experiences { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-           
             modelBuilder.Entity<Location>().HasData(
                 new Location { LocationId = 1, City = "Chicago" },
                 new Location { LocationId = 2, City = "New York" },
                 new Location { LocationId = 3, City = "Miami" }
             );
-
-          
             modelBuilder.Entity<Client>().HasData(
                 new Client
                 {
@@ -38,7 +35,6 @@ namespace AirBB.Models
                 }
             );
 
-           
             modelBuilder.Entity<Residence>().HasData(
                 new Residence
                 {
@@ -77,8 +73,6 @@ namespace AirBB.Models
                     PricePerNight = 250m
                 }
             );
-
-            
             modelBuilder.Entity<Reservation>().HasData(
                 new Reservation
                 {

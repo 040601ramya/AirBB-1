@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using AirBB.Models;
+using AirBB.Models.DataLayer;      
+using AirBB.Models.DomainModels;   
 
 namespace AirBB.Areas.Admin.Controllers
 {

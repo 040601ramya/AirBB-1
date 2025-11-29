@@ -1,0 +1,33 @@
+@model AirBB.Models.DomainModels.Reservation
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Reservation Details";
+}
+
+<div class="container mt-5">
+    <div class="card shadow p-4 rounded-4">
+
+        <h2 class="fw-bold mb-3">Reservation Confirmed!</h2>
+        <p class="text-muted">Your booking has been successfully created.</p>
+
+        <hr />
+
+        <h4 class="fw-bold mb-3">Reservation Summary</h4>
+
+        <p><strong>Reservation ID:</strong> @Model.ReservationId</p>
+        <p><strong>Residence:</strong> @Model.Residence?.Name</p>
+        <p><strong>Location:</strong> @Model.Residence?.Location?.City</p>
+        <p><strong>Guest:</strong> @Model.Client?.Name</p>
+        <p><strong>Check-in:</strong> @Model.ReservationStartDate.ToString("MM-dd-yyyy")</p>
+        <p><strong>Check-out:</strong> @Model.ReservationEndDate.ToString("MM-dd-yyyy")</p>
+        <p><strong>Total Price:</strong> $@Model.TotalPrice</p>
+
+        <div class="mt-4 d-flex gap-3">
+            <a href="/Home" class="btn btn-primary flex-fill">Back to Home</a>
+            <a asp-controller="Reservation" asp-action="Index" class="btn btn-secondary flex-fill">
+                View All Reservations
+            </a>
+        </div>
+
+    </div>
+</div>

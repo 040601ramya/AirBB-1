@@ -12,7 +12,7 @@ namespace AirBB.Models.Validation
             if (!decimal.TryParse(value.ToString(), out decimal number))
                 return new ValidationResult("Invalid value.");
 
-            // Allow only integers or .5
+          
             decimal multiplied = number * 2;
 
             if (multiplied != Math.Truncate(multiplied))

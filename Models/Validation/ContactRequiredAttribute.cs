@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using AirBB.Models.DomainModels;   // ✅ Correct namespace for User model
+using AirBB.Models.DomainModels;   
 
 namespace AirBB.Models.Validation
 {

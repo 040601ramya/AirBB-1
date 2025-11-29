@@ -3,16 +3,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace AirBB.Models.Validation
 {
-    /// <summary>
-    /// Built year must be a past year within the last MaxYearsAgo years.
-    /// Implements both server-side and client-side validation.
-    /// </summary>
+   
     public class BuiltYearValidationAttribute : ValidationAttribute, IClientModelValidator
     {
-        /// <summary>
-        /// How many years back from the current year are allowed.
-        /// Default: 150.
-        /// </summary>
+       
         public int MaxYearsAgo { get; set; } = 150;
 
         public BuiltYearValidationAttribute()
@@ -35,7 +29,7 @@ namespace AirBB.Models.Validation
             return ValidationResult.Success;
         }
 
-        // Client-side (unobtrusive) support
+     
         public void AddValidation(ClientModelValidationContext context)
         {
             MergeAttribute(context.Attributes, "data-val", "true");

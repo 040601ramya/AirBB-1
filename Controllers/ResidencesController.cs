@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using AirBB.Models.DomainModels;                
-using AirBB.Models.DataLayer;                   
-using AirBB.Models.DataLayer.Repositories;      
+using AirBB.Models.DomainModels;
+using AirBB.Models.DataLayer;
+using AirBB.Models.DataLayer.Repositories;
 
 namespace AirBB.Controllers
 {
@@ -21,16 +21,14 @@ namespace AirBB.Controllers
                 Where = r => r.ResidenceId == id
             };
 
-          
             options.Includes.Add(r => r.Location);
 
-            
             var residence = await _resRepo.GetAsync(options);
 
             if (residence == null)
                 return NotFound();
 
-            return View(residence);
+            return View(residence!);  
         }
     }
 }

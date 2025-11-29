@@ -21,7 +21,62 @@ namespace AirBB.Controllers
             _clientRepo = clientRepo;
         }
 
-       
+        [HttpPost]
+        public async Task<IActionResult> Reserve(int ResidenceId, DateTime StartDate, DateTime EndDate)
+        {
+            var residence = await _residenceRepo.GetAsync(ResidenceId);
+
+            if (residence == null)
+            {
+                TempData["Error"] = "Residence not found.";
+                return RedirectToAction("Index", "Home");
+            }
+
+          
+            if (EndDate <= StartDate)
+            {
+                TempData["Error"] = "Check-out date must be after check-in.";
+                return RedirectToAction("Details", "Residences", new { id = ResidenceId });
+            }
+
+
+            var checkOptions = new QueryOptions<Reservation>
+            {
+                Where = r =>
+                    r.ResidenceId == ResidenceId &&
+                    StartDate < r.ReservationEndDate &&
+                    EndDate > r.ReservationStartDate
+            };
+
+            var existing = await _resRepo.ListAsync(checkOptions);
+
+            if (existing.Any())
+            {
+                TempData["Error"] = "This residence is already booked for the selected dates.";
+                return RedirectToAction("Details", "Residences", new { id = ResidenceId });
+            }
+
+            int nights = (EndDate - StartDate).Days;
+            if (nights <= 0) nights = 1;
+
+            decimal total = residence.PricePerNight * nights;
+
+            var reservation = new Reservation
+            {
+                ResidenceId = ResidenceId,
+                ClientId = 1, 
+                ReservationStartDate = StartDate,
+                ReservationEndDate = EndDate,
+                TotalPrice = total
+            };
+
+            await _resRepo.InsertAsync(reservation);
+            await _resRepo.SaveAsync();
+
+            return RedirectToAction(nameof(Details), new { id = reservation.ReservationId });
+        }
+
+
         public async Task<IActionResult> Index()
         {
             var options = new QueryOptions<Reservation>();
@@ -30,10 +85,10 @@ namespace AirBB.Controllers
             options.OrderBy = r => r.ReservationId;
 
             var reservations = await _resRepo.ListAsync(options);
-            return View(reservations);
+            return View(reservations!);
         }
 
-      
+
         public async Task<IActionResult> Create()
         {
             ViewBag.Residences = await _residenceRepo.ListAsync();
@@ -41,7 +96,6 @@ namespace AirBB.Controllers
             return View();
         }
 
-       
         [HttpPost]
         public async Task<IActionResult> Create(Reservation reservation)
         {
@@ -57,11 +111,13 @@ namespace AirBB.Controllers
                     return View(reservation);
                 }
 
-                var nights = (reservation.ReservationEndDate - reservation.ReservationStartDate).Days;
+                int nights = (reservation.ReservationEndDate - reservation.ReservationStartDate).Days;
+                if (nights <= 0) nights = 1;
                 reservation.TotalPrice = residence.PricePerNight * nights;
 
                 await _resRepo.InsertAsync(reservation);
                 await _resRepo.SaveAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -70,7 +126,7 @@ namespace AirBB.Controllers
             return View(reservation);
         }
 
-       
+
         public async Task<IActionResult> Edit(int id)
         {
             var reservation = await _resRepo.GetAsync(id);
@@ -78,10 +134,9 @@ namespace AirBB.Controllers
 
             ViewBag.Residences = await _residenceRepo.ListAsync();
             ViewBag.Clients = await _clientRepo.ListAsync();
-            return View(reservation);
+            return View(reservation!);
         }
 
-       
         [HttpPost]
         public async Task<IActionResult> Edit(Reservation reservation)
         {
@@ -97,7 +152,8 @@ namespace AirBB.Controllers
                     return View(reservation);
                 }
 
-                var nights = (reservation.ReservationEndDate - reservation.ReservationStartDate).Days;
+                int nights = (reservation.ReservationEndDate - reservation.ReservationStartDate).Days;
+                if (nights <= 0) nights = 1;
                 reservation.TotalPrice = residence.PricePerNight * nights;
 
                 await _resRepo.UpdateAsync(reservation);
@@ -111,7 +167,7 @@ namespace AirBB.Controllers
             return View(reservation);
         }
 
-       
+
         public async Task<IActionResult> Delete(int id)
         {
             var options = new QueryOptions<Reservation>
@@ -124,10 +180,9 @@ namespace AirBB.Controllers
             var reservation = await _resRepo.GetAsync(options);
             if (reservation == null) return NotFound();
 
-            return View(reservation);
+            return View(reservation!);
         }
 
-       
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -140,7 +195,6 @@ namespace AirBB.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
         public async Task<IActionResult> Details(int id)
         {
             var options = new QueryOptions<Reservation>
@@ -153,7 +207,7 @@ namespace AirBB.Controllers
             var reservation = await _resRepo.GetAsync(options);
             if (reservation == null) return NotFound();
 
-            return View(reservation);
+            return View(reservation!); 
         }
     }
 }

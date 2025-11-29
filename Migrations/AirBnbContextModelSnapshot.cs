@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using AirBB.Models.DomainModels;   // correct domain models namespace
-
+using AirBB.Models.DomainModels;  
 namespace AirBB.Models
 {
     public class AirBnbContext : DbContext
@@ -19,21 +18,18 @@ namespace AirBB.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            // -----------------------------
-            // FIXED: Location uses City/State/Country
-            // -----------------------------
             modelBuilder.Entity<Location>().Property(l => l.City).HasMaxLength(50);
             modelBuilder.Entity<Location>().Property(l => l.State).HasMaxLength(50);
             modelBuilder.Entity<Location>().Property(l => l.Country).HasMaxLength(50);
 
-            // SEED: Locations
+            
             modelBuilder.Entity<Location>().HasData(
                new Location { LocationId = 1, City = "Chicago", State = "Illinois", Country = "USA" },
                new Location { LocationId = 2, City = "New York", State = "New York", Country = "USA" },
                new Location { LocationId = 3, City = "Miami", State = "Florida", Country = "USA" }
             );
 
-            // Client seed
+  
             modelBuilder.Entity<Client>().HasData(
                 new Client
                 {
@@ -45,7 +41,7 @@ namespace AirBB.Models
                 }
             );
 
-            // Residences
+           
             modelBuilder.Entity<Residence>().HasData(
                 new Residence
                 {
@@ -88,7 +84,7 @@ namespace AirBB.Models
                 }
             );
 
-            // Reservations
+            
             modelBuilder.Entity<Reservation>().HasData(
                 new Reservation
                 {

@@ -7,7 +7,7 @@ namespace AirBB.Models.DomainModels
         public int ExperienceId { get; set; }
 
         [Required]
-        public required string Title { get; set; }  // FIXED
+        public required string Title { get; set; }
 
         public string? Description { get; set; }
 

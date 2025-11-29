@@ -3,9 +3,7 @@ using System.Globalization;
 
 namespace AirBB.Models.Validation
 {
-    /// <summary>
-    /// Bathrooms: integer or .5 (e.g., 1, 1.5, 2, 2.5, etc.)
-    /// </summary>
+    
     public class BathroomValidationAttribute : ValidationAttribute
     {
         public BathroomValidationAttribute()
@@ -24,7 +22,6 @@ namespace AirBB.Models.Validation
             if (!decimal.TryParse(str, NumberStyles.Number, CultureInfo.InvariantCulture, out var number))
                 return new ValidationResult(ErrorMessage);
 
-            // 0.5 steps
             var multiplied = number * 2;
             if (multiplied != Math.Truncate(multiplied) || number < 0)
                 return new ValidationResult(ErrorMessage);
